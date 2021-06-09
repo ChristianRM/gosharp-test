@@ -1,19 +1,33 @@
 <div>
-    <input type="text" name="pdvnombre" [(ngModel)]="pdv.nombre">
-    <input type="text" name="pdvcp" ng-pattern="/^[a-zA-Z0-9]+$/" [(ngModel)]="pdv.cp"  placeholder="cp">
-    <input type="text" name="pdvcolonia" [(ngModel)]="pdv.colonia">
-    
-    <button [hidden]="add" (click)="addPdv()">add Pdv</button>
+    <form [formGroup]="addForm">
+        <div class="form-group">
+            <label>Nombre del punto de venta</label>
+            <input type="text" name="pdvnombre" class="form-control" formControlName="nombre">
+            <span class="error" *ngIf="nombre?.invalid && nombre?.touched">El campo solo puede contener caracteres alfanuméricos y no debe estar vacío</span>
+        </div>
+        <div class="form-group">
+            <label>Colonia</label>
+            <input type="text" name="pdvcolonia" class="form-control" formControlName="colonia" >
+            <span class="error" *ngIf="colonia?.invalid && colonia?.touched">El campo solo puede contener caracteres alfanuméricos o los caracteres especiales (#.,/) y no debe estar vacío</span>
+        </div>
+        <div class="form-group">
+            <label>Código Postal</label>
+            <input type="text" name="pdvcp" class="form-control" formControlName="cp">
+            <span class="error" *ngIf="cp?.invalid && cp?.touched">El campo solo puede contener caracteres numéricos, contener entre 3 y 7 caracteres, y no debe estar vacío</span>
+        </div>
+        <button [hidden]="add" (click)="addPdv()" [disabled]="nombre?.invalid || cp?.invalid || colonia?.invalid">Agregar</button>
+    </form>
+
 </div>
 <table id="pdvs">
     <tr>
         <th>Nombre PDV</th>
-        <th>Codigo Postal</th>
         <th>Colonia</th>
+        <th>Codigo Postal</th>
     </tr>
     <tr *ngFor="let pdv of pdvs">
         <td>{{pdv.nombre}}</td>
-        <td>{{pdv.cp}}</td>
         <td>{{pdv.colonia}}</td>
+        <td>{{pdv.cp}}</td>
     </tr>
 </table>

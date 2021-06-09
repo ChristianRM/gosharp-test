@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Pdv } from '../pdv.model'
 import { PdvService } from '../pdv.service'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-list-pdv',
@@ -8,12 +9,42 @@ import { PdvService } from '../pdv.service'
   styleUrls: ['./list-pdv.component.css']
 })
 export class ListPdvComponent implements OnInit {
-  pdv = {
-    id: 3,
-    nombre: '',
-    cp: '',
-    colonia: ''
+  addForm = new FormGroup({
+    nombre: new FormControl('',
+      Validators.compose(
+        [
+          Validators.required,
+          Validators.pattern('[a-zA-Z0-9]*')
+        ]
+      )),
+    colonia: new FormControl('',
+      Validators.compose(
+        [
+          Validators.required,
+          Validators.pattern('[a-zA-Z0-9(#.,/)]*')
+        ]
+      )),
+    cp: new FormControl('',
+      Validators.compose(
+        [
+          Validators.required, 
+          Validators.pattern('[0-9]*'),
+          Validators.minLength(3),
+          Validators.maxLength(7)
+        ]
+      ))
+
+
+
+  })
+
+  get nombre() {
+    console.log(this.addForm.get('nombre'))
+    return this.addForm.get('nombre')
   }
+  get cp() { return this.addForm.get('cp') }
+  get colonia() { return this.addForm.get('colonia') }
+  id: number = 3;
   add = false;
   pdvs: Pdv[] = [];
 
@@ -28,10 +59,10 @@ export class ListPdvComponent implements OnInit {
 
   addPdv() {
     const data = {
-      id: this.pdv.id,
-      nombre: this.pdv.nombre,
-      cp: this.pdv.cp,
-      colonia: this.pdv.colonia
+      id: this.id,
+      nombre: this.nombre?.value,
+      cp: this.cp?.value,
+      colonia: this.colonia?.value
     };
     this.pdvService.createPdv(data).subscribe(response => {
       console.log(response)
@@ -42,11 +73,8 @@ export class ListPdvComponent implements OnInit {
 
 
   resetValues() {
-    this.pdv.id++;
-    this.pdv.nombre = "";
-    this.pdv.cp = "";
-    this.pdv.colonia = "";
-    this.add = false;
+    this.id++;
+    this.addForm.reset()
   }
 
 }
