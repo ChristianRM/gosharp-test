@@ -6,19 +6,23 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 })
 
 export class MemoryService implements InMemoryDbService {
+  constructor() { }
   createDb() {
-    let pdv = [
-      {
-        "Nombre": "OXXO",
-        "Código Postal": "01500",
-        "Colonia": "Anzures",
-      },
-      {
-        "Nombre": "7 eleven",
-        "Código Postal": "01600",
-        "Colonia": "Polanco",
-      }
-    ]
-    return { pdv }
+    return {
+      pdv : [
+        {
+          "id": 1,
+          "nombre": "OXXO",
+          "cp": "01500",
+          "colonia": "Anzures",
+        },
+        {
+          "id": 2,
+          "nombre": "7 eleven",
+          "cp": "01600",
+          "colonia": "Polanco",
+        }
+      ]
+    }
   }
 }
