@@ -14,14 +14,14 @@ export class ListPdvComponent implements OnInit {
       Validators.compose(
         [
           Validators.required,
-          Validators.pattern('[a-zA-Z0-9]*')
+          Validators.pattern('[a-zA-Z0-9 ]*')
         ]
       )),
     colonia: new FormControl('',
       Validators.compose(
         [
           Validators.required,
-          Validators.pattern('[a-zA-Z0-9(#.,/)]*')
+          Validators.pattern('[a-zA-Z0-9(#.,/) ]*')
         ]
       )),
     cp: new FormControl('',
